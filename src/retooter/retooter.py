@@ -156,7 +156,6 @@ class Retooter:
                     mention["status"]["id"]
                 )
             ]
-            print(retooters, self.account_name)
             if (
                 self.account_name not in retooters
                 and self.account_name.split('@')[0] not in retooters
@@ -202,5 +201,6 @@ class Retooter:
 
     @since_id.setter
     def since_id(self, since_id):
-        self._since_id = since_id
-        SINCE_ID_CACHE_FILE.write_text(str(since_id))
+        if since_id is not None:
+            self._since_id = since_id
+            SINCE_ID_CACHE_FILE.write_text(str(since_id))

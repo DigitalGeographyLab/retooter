@@ -2,9 +2,9 @@
 
 name: Run retooter periodically (every 15 min) or manually
 on:
-  workflow_dispatch:
   schedule:
     - cron '*/15 * * *'
+  workflow_dispatch:
 
 concurrency: ${{ github.workflow }}
 

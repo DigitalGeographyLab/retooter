@@ -168,6 +168,7 @@ class Retooter:
                     )
                     self.mastodon.status_reblog(mention["status"]["id"])
                     self.since_id = mention["status"]["id"]
+        print(f"since_id is now at {self.since_id}")
 
     @property
     def mentions(self):

@@ -45,7 +45,10 @@ class Retooter:
 
     APPLICATION_NAME = "Retooter"
 
-    DRY_RUN = bool(DRY_RUN in os.environ and os.environ[DRY_RUN])
+    DRY_RUN = bool(
+        DRY_RUN in os.environ
+        and os.environ[DRY_RUN].lower() in ("true", "t", "yes", "y")
+    )
 
     def __init__(self):
         """Repost Mastodon posts that mention a user."""

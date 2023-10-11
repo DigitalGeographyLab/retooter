@@ -156,6 +156,7 @@ class Retooter:
                     mention["status"]["id"]
                 )
             ]
+            print(retooters, self.account_name)
             if self.account_name not in retooters:
                 if self.DRY_RUN:
                     print(

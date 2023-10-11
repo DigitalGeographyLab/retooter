@@ -26,9 +26,9 @@ server-side API.
    - (optional) `RETOOTER_API_BASE_URL`: if the API base url of the account’s instance
      differs from `https://` + the domain part of the `RETOOTER_ACCOUNT_NAME`
      (e.g., `https://mastodon.online`), define it manually, here
-   - (option) `RETOOTER_DRY_RUN`: if this variable is set (to any value), *retooter* will
-     not actually re-post any messages, but rather print them to stdout (which
-     can be read from the log output of a GitHub action)
+   - (option) `RETOOTER_DRY_RUN`: if this variable is set (to any non-empty
+     value), *retooter* will not actually re-post any messages, but rather print
+     them to stdout (which can be read from the log output of a GitHub action)
 
 3. Create a new set of authentication keys. This is a multi-step process that
    includes running the script *once* locally, or in an interactive environment,

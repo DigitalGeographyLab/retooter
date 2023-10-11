@@ -45,7 +45,7 @@ class Retooter:
 
     APPLICATION_NAME = "Retooter"
 
-    DRY_RUN = bool(DRY_RUN in os.environ)
+    DRY_RUN = bool(DRY_RUN in os.environ and os.environ[DRY_RUN])
 
     def __init__(self):
         """Repost Mastodon posts that mention a user."""
@@ -138,7 +138,7 @@ class Retooter:
 
     @functools.cached_property
     def api_base_url(self):
-        if API_BASE_URL in os.environ:
+        if API_BASE_URL in os.environ and os.environ[API_BASE_URL]:
             api_base_url = os.environ[API_BASE_URL]
         else:
             api_base_url = f"https://{self.account_name.split('@')[-1]}"

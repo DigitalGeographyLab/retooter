@@ -19,10 +19,6 @@ jobs:
           python-version: "3.11"
           cache: "pip"
       - run: pip install .
-      - uses: actions/cache@v3
-        with:
-          key: ${{ runner.os }}-${{ hashFiles('**/since_id') }}
-          path: since_id
       - run: python -m retooter
         env:
           RETOOTER_ACCOUNT_NAME: ${{ vars.RETOOTER_ACCOUNT_NAME }}

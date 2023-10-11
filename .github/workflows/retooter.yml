@@ -1,9 +1,10 @@
 # vim: set tabstop=2 softtabstop=2 shiftwidth=2 expandtab:
 
-name: Run retooter periodically (every 15 min)
+name: Run retooter periodically (every 15 min) or manually
 on:
   schedule:
-    - cron '*/15 * * *'
+    - cron: '*/15 * * *'
+  workflow_dispatch:
 
 concurrency: ${{ github.workflow }}
 

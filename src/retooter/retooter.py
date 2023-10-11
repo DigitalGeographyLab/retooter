@@ -162,6 +162,10 @@ class Retooter:
                         f"by {mention['status']['account']['acct']}."
                     )
                 else:
+                    print(
+                        f"Reposting {mention['status']['id']} "
+                        f"by {mention['status']['account']['acct']}."
+                    )
                     self.mastodon.status_reblog(mention["status"]["id"])
                     self.since_id = mention["status"]["id"]
 

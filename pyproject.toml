@@ -1,0 +1,35 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools>=61.0.0", "wheel"]
+
+[project]
+name = "retooter"
+description = "Repost Mastodon posts that mention a user"
+readme = "README.md"
+
+authors = [
+    { name = "Christoph Fink", email = "christoph.fink@helsinki.fi" },
+]
+
+dependencies = [
+    "Mastodon.py==1.8.1"  # this is tested, update if things stop working
+]
+requires-python = ">=3.8"
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Operating System :: OS Independent"
+]
+keywords = ["mastodon", "bot", "api", "social media"]
+license = {text = "GPL-3.0-or-later"}
+
+dynamic = ["version"]
+
+[project.urls]
+Repository = "https://github.com/DigitalGeographyLab/retooter/"
+"Change log" = "https://github.com/DigitalGeographyLab/retooter/blob/main/CHANGELOG.md"
+"Bug tracker" = "https://github.com/DigitalGeographyLab/retooter/issues"
+
+[tool.setuptools.dynamic]
+version = {attr = "retooter.__version__"}

@@ -1,0 +1,31 @@
+# vim: set tabstop=2 softtabstop=2 shiftwidth=2 expandtab:
+
+name: Run retooter periodically (every 15 min) or manually
+on:
+  workflow_dispatch:
+  #schedule:
+  #  - cron '*/15 * * *'
+
+concurrency: ${{ github.workflow }}
+
+jobs:
+  retoot:
+    name: Repost toots
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          cache: "pip"
+      - uses: actions/cache@v3
+        with:
+          path: since_id
+      - run: python -m retooter
+        env:
+          RETOOTER_ACCOUNT_NAME: ${{ vars.RETOOTER_ACCOUNT_NAME }}
+          RETOOTER_ALLOWED_ACCOUNTS: ${{ vars.RETOOTER_ALLOWED_ACCOUNTS }}
+          RETOOTER_API_BASE_URL: ${{ vars.RETOOTER_API_BASE_URL }}
+          RETOOTER_DRY_RUN: ${{ vars.RETOOTER_DRY_RUN }}
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}

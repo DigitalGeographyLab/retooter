@@ -1,0 +1,2 @@
+- **0.0.1** (2023-10-22):
+    - first version, seems to run

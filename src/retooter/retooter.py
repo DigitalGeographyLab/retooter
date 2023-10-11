@@ -157,7 +157,10 @@ class Retooter:
                 )
             ]
             print(retooters, self.account_name)
-            if self.account_name not in retooters:
+            if (
+                self.account_name not in retooters
+                and self.account_name.split('@')[0] not in retooters
+            ):
                 if self.DRY_RUN:
                     print(
                         f"{DRY_RUN} is set, not actually re-posting. \n"

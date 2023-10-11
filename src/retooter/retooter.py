@@ -151,8 +151,10 @@ class Retooter:
         """Repost Mastodon posts that mention a user."""
         for mention in self.mentions:
             retooters = [
-                retooter["acct"] for retooter
-                in self.mastodon.status_reblogged_by(mention["status"]["id"])
+                retooter["acct"]
+                for retooter in self.mastodon.status_reblogged_by(
+                    mention["status"]["id"]
+                )
             ]
             if self.account_name not in retooters:
                 if self.DRY_RUN:

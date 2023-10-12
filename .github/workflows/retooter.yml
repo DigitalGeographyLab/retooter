@@ -29,7 +29,6 @@ jobs:
           cache: "pip"
       - run: pip install --user .
         if: steps.restore-cache.outputs.cache-hit != 'true'
-      - run: pip list --verbose
       - run: python -m retooter
         env:
           RETOOTER_ACCOUNT_NAME: ${{ vars.RETOOTER_ACCOUNT_NAME }}
@@ -39,4 +38,3 @@ jobs:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-      - run: ls -alhtr . ~/.cache/pip/ ~/.local/lib/python*/site-packages

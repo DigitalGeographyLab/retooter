@@ -135,6 +135,7 @@ class Retooter:
                 for allowed_account in os.environ[ALLOWED_ACCOUNTS].splitlines()
             ]
             assert allowed_accounts
+            print(allowed_accounts)
         except (AssertionError, KeyError) as exception:
             raise RetooterNoAllowedAccountsDefined(
                 f"No {ALLOWED_ACCOUNTS} found, check configuration"

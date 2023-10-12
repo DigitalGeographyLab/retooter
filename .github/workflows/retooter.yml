@@ -18,7 +18,7 @@ jobs:
       - uses: actions/cache@v3
         id: restore-cache
         with:
-          key: ${{ github.repository }}-${{ env.TODAY }}
+          key: ${{ github.repository }}-${{ github.sha }}-${{ env.TODAY }}
           path: |
             since_id
             ~/.cache/pip/

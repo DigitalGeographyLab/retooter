@@ -51,6 +51,11 @@ class Retooter:
         """Repost Mastodon posts that mention a user."""
         self.authenticate()
 
+        # if API_BASE_URL is set, account_name is not parsed if there are no new
+        # mentions. Let’s force-check it here, so we can give feedback, in case
+        # ACCOUNT_NAME is passed an invalid value
+        assert self.account_name
+
     def authenticate(self):
         """
         Reads env vars and tries to authenticate against the API.

@@ -7,6 +7,7 @@
 import functools
 import os
 import pathlib
+import urllib.parse
 import warnings
 
 import mastodon
@@ -16,13 +17,14 @@ __all__ = ["Retooter", "RetooterError"]
 
 
 # variable and secret names
+_PREFIX = "RETOOTER"
 ACCESS_TOKEN = "ACCESS_TOKEN"
-ACCOUNT_NAME = "RETOOTER_ACCOUNT_NAME"
-ALLOWED_ACCOUNTS = "RETOOTER_ALLOWED_ACCOUNTS"
-API_BASE_URL = "RETOOTER_API_BASE_URL"
+ACCOUNT_NAME = f"{_PREFIX}_ACCOUNT_NAME"
+ALLOWED_ACCOUNTS = f"{_PREFIX}_ALLOWED_ACCOUNTS"
+API_BASE_URL = f"{_PREFIX}_API_BASE_URL"
 CLIENT_ID = "CLIENT_ID"
 CLIENT_SECRET = "CLIENT_SECRET"
-DRY_RUN = "RETOOTER_DRY_RUN"
+DRY_RUN = f"{_PREFIX}_DRY_RUN"
 
 
 SINCE_ID_CACHE_FILE = pathlib.Path("since_id")
@@ -52,10 +54,7 @@ class Retooter:
 
     def __init__(self):
         """Repost Mastodon posts that mention a user."""
-        try:
-            self.authenticate()
-        except RetooterNoAccountNameDefined as exception:
-            raise RetooterError(f"Make sure {ACCOUNT_NAME} is defined.") from exception
+        self.authenticate()
 
     def authenticate(self):
         """
@@ -125,16 +124,24 @@ class Retooter:
     @functools.cached_property
     def account_name(self):
         try:
-            account_name = os.environ[ACCOUNT_NAME]
-        except KeyError as exception:
-            raise RetooterNoAccountNameDefined from exception
+            account_name = os.environ[ACCOUNT_NAME].strip()
+            assert account_name
+            assert len(account_name.split("@")) == 2
+        except (AssertionError, KeyError) as exception:
+            raise RetooterNoAccountNameDefined(
+                f"{ACCOUNT_NAME} is not set or invalid, check configuration"
+            ) from exception
         return account_name
 
     @functools.cached_property
     def allowed_accounts(self):
         try:
-            allowed_accounts = os.environ[ALLOWED_ACCOUNTS].splitlines()
-        except KeyError:
+            allowed_accounts = [
+                allowed_account.strip()
+                for allowed_account in os.environ[ALLOWED_ACCOUNTS].splitlines()
+            ]
+            assert allowed_accounts
+        except (AssertionError, KeyError):
             warnings.warn(f"No {ALLOWED_ACCOUNTS} found, check configuration")
             allowed_accounts = []
         return allowed_accounts
@@ -142,7 +149,16 @@ class Retooter:
     @functools.cached_property
     def api_base_url(self):
         if API_BASE_URL in os.environ and os.environ[API_BASE_URL]:
-            api_base_url = os.environ[API_BASE_URL]
+            try:
+                api_base_url = os.environ[API_BASE_URL].strip()
+                assert api_base_url
+                scheme, netloc, *_ = urllib.parse.urlparse(api_base_url)
+                assert scheme
+                assert netloc
+            except AssertionError as exception:
+                raise RetooterNoAccountNameDefined(
+                    f"{API_BASE_URL} is set to an invalid value, check configuration"
+                ) from exception
         else:
             api_base_url = f"https://{self.account_name.split('@')[-1]}"
         return api_base_url

@@ -20,9 +20,9 @@ jobs:
         with:
           key: ${{ github.repository }}-${{ env.TODAY }}
           path: |
-            since_id
-            .cache/pip/
-            .local/lib/python*/site-packages
+            ~/since_id
+            ~/.cache/pip/
+            ~/.local/lib/python*/site-packages
       - uses: actions/setup-python@v4
         if: steps.restore-cache.outputs.cache-hit != 'true'
         with:
@@ -40,3 +40,4 @@ jobs:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+      - run: ls -alhtr ~/since_id ~/.cache/pip/ ~/.local/lib/python*/site-packages

@@ -182,6 +182,7 @@ class Retooter:
             since_id=self.since_id,
         )
         for mention in mentions:
+            print(mention)
             if mention["status"]["account"]["acct"] in self.allowed_accounts:
                 yield mention
 

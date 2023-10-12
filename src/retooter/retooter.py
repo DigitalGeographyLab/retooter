@@ -128,12 +128,8 @@ class Retooter:
 
     @functools.cached_property
     def account_name(self):
-        print("XXXXX")
-        print(os.environ[ACCOUNT_NAME])
-        print(len(os.environ[ACCOUNT_NAME].strip().split("@")))
         try:
             account_name = os.environ[ACCOUNT_NAME].strip()
-            print(account_name, len(account_name.split("@")))
             assert account_name
             assert (
                 len(account_name.split("@")) == 2

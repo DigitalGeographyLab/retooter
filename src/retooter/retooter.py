@@ -11,8 +11,15 @@ import urllib.parse
 
 import mastodon
 
+from .errors import (
+    RetooterInvalidApiBaseUrl,
+    RetooterNoAccountNameDefined,
+    RetooterNoAllowedAccountsDefined,
+    RetooterNotAuthenticated,
+)
 
-__all__ = ["Retooter", "RetooterError"]
+
+__all__ = ["Retooter"]
 
 
 # variable and secret names
@@ -27,18 +34,6 @@ DRY_RUN = f"{_PREFIX}_DRY_RUN"
 
 
 SINCE_ID_CACHE_FILE = pathlib.Path("since_id")
-
-
-class RetooterError(RuntimeError):
-    "Base class for errors happening here." ""
-
-
-class RetooterNoAccountNameDefined(RetooterError):
-    """Raised if not accout name defined."""
-
-
-class RetooterNotAuthenticated(RetooterError):
-    """Raised if authentication not sufficient."""
 
 
 class Retooter:
@@ -79,13 +74,13 @@ class Retooter:
             except mastodon.errors.MastodonUnauthorizedError as exception:
                 raise RetooterNotAuthenticated from exception
 
-        except RetooterNotAuthenticated:
+        except RetooterNotAuthenticated as exception:
             if "GITHUB_ACTIONS" in os.environ:
-                raise RetooterError(
+                raise RetooterNotAuthenticated(
                     "No sufficient authentication found, please follow the "
                     "instructions in README.md to obtain CLIENT_ID, "
                     "CLIENT_SECRET, and ACCESS_TOKEN"
-                )
+                ) from exception
             else:
                 print(
                     "No sufficient authentication found, requesting a new "
@@ -141,7 +136,7 @@ class Retooter:
             ]
             assert allowed_accounts
         except (AssertionError, KeyError) as exception:
-            raise RetooterNoAccountNameDefined(
+            raise RetooterNoAllowedAccountsDefined(
                 f"No {ALLOWED_ACCOUNTS} found, check configuration"
             ) from exception
         return allowed_accounts
@@ -156,7 +151,7 @@ class Retooter:
                 assert scheme
                 assert netloc
             except AssertionError as exception:
-                raise RetooterNoAccountNameDefined(
+                raise RetooterInvalidApiBaseUrl(
                     f"{API_BASE_URL} is set to an invalid value, check configuration"
                 ) from exception
         else:

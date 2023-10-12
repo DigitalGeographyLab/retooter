@@ -22,6 +22,7 @@ jobs:
           path: |
             since_id
             .cache/pip/
+            .local/lib/python*/site-packages
       - uses: actions/setup-python@v4
         if: steps.restore-cache.outputs.cache-hit != 'true'
         with:

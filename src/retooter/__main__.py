@@ -4,7 +4,7 @@
 """Repost Mastodon posts that mention a user."""
 
 
-from .retooter import Retooter, RetooterError
+from . import Retooter, RetooterError
 
 
 def main():

@@ -182,9 +182,11 @@ class Retooter:
             since_id=self.since_id,
         )
         for mention in mentions:
-            print(mention)
-            if mention["status"]["account"]["acct"] in self.allowed_accounts:
-                yield mention
+            try:
+                if mention["status"]["account"]["acct"] in self.allowed_accounts:
+                    yield mention
+            except KeyError:  # there are mentions without status
+                continue
 
     @property
     def since_id(self):

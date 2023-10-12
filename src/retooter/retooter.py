@@ -12,6 +12,7 @@ import urllib.parse
 import mastodon
 
 from .errors import (
+    RetooterError,
     RetooterInvalidApiBaseUrl,
     RetooterNoAccountNameDefined,
     RetooterNoAllowedAccountsDefined,
@@ -73,6 +74,11 @@ class Retooter:
                 self.mastodon.app_verify_credentials()
             except mastodon.errors.MastodonUnauthorizedError as exception:
                 raise RetooterNotAuthenticated from exception
+            except mastodon.errors.MastodonVersionError as exception:
+                raise RetooterError(
+                    "Could not connect to the instance’s API, "
+                    f"consider defining {API_BASE_URL}."
+                ) from exception
 
         except RetooterNotAuthenticated as exception:
             if "GITHUB_ACTIONS" in os.environ:

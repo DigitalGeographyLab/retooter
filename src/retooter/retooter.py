@@ -183,9 +183,11 @@ class Retooter:
         )
         for mention in mentions:
             try:
+                self.since_id = mention["status"]["id"]
                 if mention["status"]["account"]["acct"] in self.allowed_accounts:
                     yield mention
-            except (KeyError, TypeError):  # there are mentions without status
+            except (KeyError, TypeError):
+                # skip mentions without status
                 continue
 
     @property
@@ -198,7 +200,6 @@ class Retooter:
                 since_id = int(SINCE_ID_CACHE_FILE.read_text())
                 self._since_id = since_id
             except (FileNotFoundError, ValueError):
-                SINCE_ID_CACHE_FILE.write_text("")  # create empty file for GitHub cache to pick up
                 since_id = None
         return since_id
 

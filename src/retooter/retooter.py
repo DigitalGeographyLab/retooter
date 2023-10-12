@@ -125,8 +125,9 @@ class Retooter:
     def account_name(self):
         try:
             account_name = os.environ[ACCOUNT_NAME].strip()
+            print(account_name, len(account_name.split("@")))
             assert account_name
-            assert len(account_name.split("@")) == 2
+            assert (len(account_name.split("@")) == 2)
         except (AssertionError, KeyError) as exception:
             raise RetooterNoAccountNameDefined(
                 f"{ACCOUNT_NAME} is not set or invalid, check configuration"

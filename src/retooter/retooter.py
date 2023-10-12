@@ -8,7 +8,6 @@ import functools
 import os
 import pathlib
 import urllib.parse
-import warnings
 
 import mastodon
 
@@ -141,9 +140,10 @@ class Retooter:
                 for allowed_account in os.environ[ALLOWED_ACCOUNTS].splitlines()
             ]
             assert allowed_accounts
-        except (AssertionError, KeyError):
-            warnings.warn(f"No {ALLOWED_ACCOUNTS} found, check configuration")
-            allowed_accounts = []
+        except (AssertionError, KeyError) as exception:
+            raise RetooterNoAccountNameDefined(
+                f"No {ALLOWED_ACCOUNTS} found, check configuration"
+            ) from exception
         return allowed_accounts
 
     @functools.cached_property
@@ -174,7 +174,7 @@ class Retooter:
             ]
             if (
                 self.account_name not in retooters
-                and self.account_name.split('@')[0] not in retooters
+                and self.account_name.split("@")[0] not in retooters
             ):
                 if self.DRY_RUN:
                     print(

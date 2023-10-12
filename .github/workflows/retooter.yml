@@ -22,13 +22,12 @@ jobs:
           path: |
             since_id
             .cache/pip/
-            /opt/hostedtoolcache/Python/
       - uses: actions/setup-python@v4
         if: steps.restore-cache.outputs.cache-hit != 'true'
         with:
           python-version: "3.11"
           cache: "pip"
-      - run: pip install .
+      - run: pip install --user .
         if: steps.restore-cache.outputs.cache-hit != 'true'
       - run: pip list --verbose
       - run: python -m retooter

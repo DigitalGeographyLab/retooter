@@ -14,11 +14,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - run: echo "TODAY=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+      - uses: actions/cache@v3
+        id: restore-cache
+        with:
+          key: ${{ github.repository }}-${{ env.TODAY }}
+          path: |
+            since_id
+            ~/.cache/pip/
+            ~/.local/lib/python*/site-packages
       - uses: actions/setup-python@v4
         with:
           python-version: "3.11"
           cache: "pip"
-      - run: pip install .
+      - run: pip install --user .
+        if: steps.restore-cache.outputs.cache-hit != 'true'
       - run: python -m retooter
         env:
           RETOOTER_ACCOUNT_NAME: ${{ vars.RETOOTER_ACCOUNT_NAME }}

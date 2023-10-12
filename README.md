@@ -40,11 +40,13 @@ server-side API.
       pip install git+https://github.com/DigitalGeographyLab/retooter.git
       ```
 
-   2. Locally define the `RETOOTER_ACCOUNT_NAME` you set above as an environment variable:
+   2. Locally define the `RETOOTER_ACCOUNT_NAME` (and possibly
+      `RETOOTER_API_BASE_URL`( you set above as an environment variable:
       if you use BASH or a similar shell, use `export`:
 
       ```
       export RETOOTER_ACCOUNT_NAME="digigeolab@mastodon.online"
+      export RETOOTER_API_BASE_URL="https://mastodon.online"
       ```
 
    3. Run the package:

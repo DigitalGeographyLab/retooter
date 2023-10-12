@@ -198,6 +198,7 @@ class Retooter:
                 since_id = int(SINCE_ID_CACHE_FILE.read_text())
                 self._since_id = since_id
             except (FileNotFoundError, ValueError):
+                SINCE_ID_CACHE_FILE.read_text("")  # create empty file for GitHub cache to pick up
                 since_id = None
         return since_id
 

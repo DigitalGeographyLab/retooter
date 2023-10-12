@@ -40,4 +40,3 @@ jobs:
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
       - run: ls -alhtr . ~/.cache/pip/ ~/.local/lib/python*/site-packages
-        if: always

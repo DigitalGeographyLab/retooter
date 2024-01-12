@@ -225,6 +225,7 @@ class Retooter:
                 self._since_id = since_id
             except (FileNotFoundError, ValueError):
                 since_id = None
+            print(f"SINCE_ID read from cache: {since_id}")
         return since_id
 
     @since_id.setter

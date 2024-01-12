@@ -180,6 +180,10 @@ class Retooter:
                     mention["status"]["id"]
                 )
             ]
+            print(
+                f"Mentioned in post {mention['status']['id']}"
+                f"by {mention['status']['account']['acct']}"
+            )
             if (
                 self.account_name not in retooters
                 and self.account_name.split("@")[0] not in retooters
@@ -225,6 +229,7 @@ class Retooter:
                 self._since_id = since_id
             except (FileNotFoundError, ValueError):
                 since_id = None
+            print(f"SINCE_ID read from cache: {since_id}")
         return since_id
 
     @since_id.setter

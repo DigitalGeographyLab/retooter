@@ -180,6 +180,10 @@ class Retooter:
                     mention["status"]["id"]
                 )
             ]
+            print(
+                f"Mentioned in post {mention['status']['id']}"
+                f"by {mention['status']['account']['acct']}"
+            )
             if (
                 self.account_name not in retooters
                 and self.account_name.split("@")[0] not in retooters
